@@ -3,20 +3,27 @@ package com.example.demo1;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// Класс описывающий нашего пользователя
 public class UserAccount {
+   // контанты с полом
    public static final String GENDER_MALE = "M";
    public static final String GENDER_FEMALE = "F";
 
+   // Поля структуры
    private String userName;
    private String gender;
    private String password;
 
+   // Список ролей пользователя
    private List<String> roles;
 
+   // Конструктор по умолчанию
    public UserAccount() {
 
    }
 
+   //Конструктор инициализации пользователя
    public UserAccount(String userName, String password, String gender, String... roles) {
       this.userName = userName;
       this.password = password;
@@ -29,6 +36,8 @@ public class UserAccount {
          }
       }
    }
+
+   // Ниже предствленны гетеры и сетеры для всех полей структуры
 
    public String getUserName() {
       return userName;
