@@ -9,16 +9,16 @@ import java.sql.SQLException;
 public class DataDAO {
 
     // Аунтефикация пользователя
-    public static UserAccount findUser(String userName, String password) {
+    public static UserAccount findUser(String userName, String password) throws SQLException {
         UserAccount u = findByName(userName);
-        if (u != null && checkPassword(u)) {
+        if (u != null && checkPassword(u, password)) {
             return u;
         }
         return null;
     }
 
     // Получаем пользователя по его имени из БД
-    public static UserAccount findByName(String name) {
+    public static UserAccount findByName(String name) throws SQLException {
         UserAccount user = null;
         ResultSet resObj =  getUsersFromDB(name);
 
@@ -37,6 +37,7 @@ public class DataDAO {
 
     // Получение пользователей из БД
     private static ResultSet getUsersFromDB(String name){
+
         ResultSet resObj = null;
         
         try {
@@ -46,16 +47,15 @@ public class DataDAO {
             PreparedStatement prepStatement = connection.prepareStatement(query);
             prepStatement.setString(1, name);
 
-            ResultSet resObj = prepStatement.executeQuery();
+            resObj = prepStatement.executeQuery();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
         return resObj;
     }
 
     // Проверка пароля
-    private static Bool checkPassword(UserAccount user) {
-        return u.getPassword().equals(password);
+    private static boolean checkPassword(UserAccount user, String password) {
+        return user.getPassword().equals(password);
     }
 }

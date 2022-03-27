@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 // Класс аторизации
 public class Login extends HttpServlet {
@@ -18,7 +19,12 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
 
         // Создается экземпляр класса и вызывается метод на проверку коректности вводимых данных
-        UserAccount userAccount = DataDAO.findUser(userName, password);
+        UserAccount userAccount = null;
+        try {
+            userAccount = DataDAO.findUser(userName, password);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
