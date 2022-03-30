@@ -9,16 +9,23 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-// Класс аторизации
+/**
+ * The type Login.
+ */
 public class Login extends HttpServlet {
 
-    // Обработка POST запроса для авторизации пользрвателя
-    @Override
+    /**
+     * Instantiates a new User account.
+     *
+     * @param request the HttpServletRequest
+     * @param response the HttpServletResponse
+     */
+
+        @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
 
-        // Создается экземпляр класса и вызывается метод на проверку коректности вводимых данных
         UserAccount userAccount = null;
         try {
             userAccount = DataDAO.findUser(userName, password);
@@ -29,7 +36,6 @@ public class Login extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        // Если аккаунт не найден, то пользавателю выводится html страница с ошибкой
         if (userAccount == null) {
             String errorMessage = "Invalid userName or Password";
             out.println("<html><body>");
@@ -43,7 +49,13 @@ public class Login extends HttpServlet {
         out.println("</body></html>");
     }
 
-    // Отправка начальной страницы пользователю
+    /**
+     * Instantiates a new User account.
+     *
+     * @param request the HttpServletRequest
+     * @param response the HttpServletResponse
+     */
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.getRequestDispatcher("/index.jsp").forward(request, response);

@@ -4,17 +4,37 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-// Класс хранящий подключение к БД
+
+/**
+ * The type Connection man.
+ */
 public class ConnectionMan {
-    // Данные для подключение к БД
+
+    /**
+     * The Jdbc driver.
+     */
     static final String JDBC_DRIVER = "org.postgresql.Driver";
+    /**
+     * The Jdbc db url.
+     */
     static final String JDBC_DB_URL = "jdbc:postgresql://localhost:5432/authentication";
+    /**
+     * The Jdbc user.
+     */
     static final String JDBC_USER = "postgres";
+    /**
+     * The Jdbc pass.
+     */
     static final String JDBC_PASS = "xwbk01xn17";
-    // Статическое поле, для хранения объект подключения к БД
+    
     private static Connection connection = null;
 
-    // Метод который возращает подключение к БД 
+
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     */
     public static Connection getConnection() {
         if (connection == null) {
            connection = setNewConnection();
@@ -22,7 +42,7 @@ public class ConnectionMan {
         return connection;
     }
     
-    // метод который осуществляет начальную инициализацию объета соединения 
+     
     private static Connection setNewConnection() {
         Connection newConnection = null;
         try {

@@ -4,18 +4,26 @@ import java.io.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-// Начальная страница приветствия
+
+/**
+ * The type Hello servlet.
+ */
 public class HelloServlet extends HttpServlet {
-    // Объявление полей класса
+    
     private String message;
     
-    // Методы инициализации где мы присваиваем переменной message определенную строку
+    
     @Override
     public void init() {
         message = "Hello Servlet!";
     }
-    
-    // Метод отправки пользователю HTML страницы
+
+    /**
+     * Instantiates a new User account.
+     *
+     * @param request the HttpServletRequest
+     * @param response the HttpServletResponse
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");

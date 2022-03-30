@@ -5,10 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-// Предназначен для взаимодействия с БД, в данном классе представлена ввиде хэш мапе
+
+/**
+ * The type Data dao.
+ */
 public class DataDAO {
 
-    // Аунтефикация пользователя
+    /**
+     * Find user user account.
+     *
+     * @param userName the user name
+     * @param password the password
+     * @return the user account
+     * @throws SQLException the sql exception
+     */
     public static UserAccount findUser(String userName, String password) throws SQLException {
         UserAccount u = findByName(userName);
         if (u != null && checkPassword(u, password)) {
@@ -17,7 +27,14 @@ public class DataDAO {
         return null;
     }
 
-    // Получаем пользователя по его имени из БД
+
+    /**
+     * Find by name user account.
+     *
+     * @param name the name
+     * @return the user account
+     * @throws SQLException the sql exception
+     */
     public static UserAccount findByName(String name) throws SQLException {
         UserAccount user = null;
         ResultSet resObj =  getUsersFromDB(name);
@@ -35,7 +52,7 @@ public class DataDAO {
         return user;
     }
 
-    // Получение пользователей из БД
+    
     private static ResultSet getUsersFromDB(String name){
 
         ResultSet resObj = null;
@@ -54,7 +71,7 @@ public class DataDAO {
         return resObj;
     }
 
-    // Проверка пароля
+
     private static boolean checkPassword(UserAccount user, String password) {
         return user.getPassword().equals(password);
     }

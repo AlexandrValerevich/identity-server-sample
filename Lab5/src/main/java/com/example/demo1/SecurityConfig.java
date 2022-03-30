@@ -6,19 +6,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//Класс режимов доступа
+/**
+ * The type Security config.
+ */
 public class SecurityConfig {
-	//константа ролей
+	/**
+	 * The constant ROLE_MANAGER.
+	 */
 	public static final String ROLE_MANAGER = "MANAGER";
+	/**
+	 * The constant ROLE_EMPLOYEE.
+	 */
 	public static final String ROLE_EMPLOYEE = "EMPLOYEE";
 
-	//мапа для конфигурации определенных ролей
 	private static final Map<String, List<String>> mapConfig = new HashMap<String, List<String>>();
 
-	/** 
-	 * Блок инициализации, в котором объявлен лист, в нем содержится url ссылки,
-	 * которые доступны  для определенных ролей 
-	 */
 	{
 		List<String> urlPatterns1 = new ArrayList<String>();
 
@@ -35,11 +37,21 @@ public class SecurityConfig {
 		mapConfig.put(ROLE_MANAGER, urlPatterns2);
 	}
 
-	// Сетеры
+	/**
+	 * Gets all app roles.
+	 *
+	 * @return the all app roles
+	 */
 	public static Set<String> getAllAppRoles() {
 		return mapConfig.keySet();
 	}
 
+	/**
+	 * Gets url patterns for role.
+	 *
+	 * @param role the role
+	 * @return the url patterns for role
+	 */
 	public static List<String> getUrlPatternsForRole(String role) {
 		return mapConfig.get(role);
 	}
