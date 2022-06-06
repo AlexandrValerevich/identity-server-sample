@@ -8,11 +8,11 @@ namespace Identity.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthenthiticationController : ControllerBase
+public class AutorizeController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public AuthenthiticationController( IMediator mediator)
+    public AutorizeController( IMediator mediator)
     {
         _mediator = mediator;
     }
