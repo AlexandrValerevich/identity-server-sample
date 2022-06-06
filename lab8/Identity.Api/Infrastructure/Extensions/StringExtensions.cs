@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace lab8.Infrastructure.Extensions;
+namespace Identity.Api.Infrastructure.Extensions;
 
 public static class StringExtensions
 {

@@ -1,9 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Identity.Api.Infrastructure.Options;
+using Identity.BL.Helpers.Extensions;
 using lab8.Contracts.Requests;
 using lab8.Contracts.Responces;
-using lab8.Infrastructure.Extensions;
-using lab8.Infrastructure.Options;
 using lab8.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

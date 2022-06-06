@@ -1,8 +1,9 @@
+using Identity.BL.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
-namespace lab8.Infrastructure.Options;
+namespace Identity.Api.Infrastructure.Options;
 
-public class AuthenticationOption
+public class AuthenticationOption : IAuthenticationOption
 {
     public const string Authentication = "Authentication";
     public string Issuer { get; set; }
