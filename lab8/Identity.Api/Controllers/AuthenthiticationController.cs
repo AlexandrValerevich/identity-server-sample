@@ -12,13 +12,13 @@ public class AutorizeController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public AutorizeController( IMediator mediator)
+    public AutorizeController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody]LoginRequest loginRequest)
+    public async Task<IActionResult> Login([FromForm] LoginRequest loginRequest)
     {
         LoginResponse reponse = await _mediator.Send(loginRequest);
         return Ok(reponse);
