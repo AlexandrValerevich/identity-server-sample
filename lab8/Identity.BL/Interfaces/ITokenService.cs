@@ -3,7 +3,7 @@ using Identity.BL.Entity;
 
 namespace Identity.BL.Interfaces;
 
-public interface IAuthorizationService
+public interface ITokenService
 {
     Token CreateToken(string Email);
 }

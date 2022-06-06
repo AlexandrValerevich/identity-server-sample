@@ -9,11 +9,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.BL.Services;
 
-public class AuthorizationService : IAuthorizationService
+public class TokenService : ITokenService
 {
     private readonly IAuthenticationOption _authOption;
 
-    public AuthorizationService(IAuthenticationOption authOption)
+    public TokenService(IAuthenticationOption authOption)
     {
         _authOption = authOption;
     }
