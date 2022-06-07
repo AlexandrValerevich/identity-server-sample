@@ -1,13 +1,14 @@
+using Identity.Api.Commands.Requests;
+using Identity.Api.Commands.Responces;
 using Identity.Api.Quries.Requests;
 using Identity.Api.Quries.Responces;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/[controller]")]
 public class AutorizeController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -24,10 +25,11 @@ public class AutorizeController : ControllerBase
         return Ok(reponse);
     }
 
-    [Authorize]
-    [HttpGet("data")]
-    public IActionResult Data()
+    [HttpPost("registration")]
+    public async Task<IActionResult> Reqistration([FromBody] RegistrationRequest request)
     {
-        return Ok(new { message = "Hello World!" });
+        RegistrationResponse responce = await _mediator.Send(request);
+        return Ok(responce);
     }
 }
+    

@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Identity.BL.Interfaces;
 
-public interface IPasswordService : IPasswordHasher<User>
+public interface IPasswordService
 {
+    string HashPassword(string password);
+    bool Verify(string password, string hashedPassword);
+    string ValidateAndReplacePassword(string currentPassword, string currentHashe, string newPassword);
 }
