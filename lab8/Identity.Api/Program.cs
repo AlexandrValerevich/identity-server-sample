@@ -12,9 +12,6 @@ builder.Services.AddJwtAuthentification(builder.Configuration);
 builder.Services.AddAuthentificationOptions(builder.Configuration);
 
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IPasswordService, PasswordService>();
-// builder.Services.AddScoped<IUserService, UserService>();
-// builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddIdentityDbContext(builder.Configuration);
 builder.Services.AddMediatR(typeof(Program));
