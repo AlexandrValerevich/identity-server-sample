@@ -5,5 +5,5 @@ namespace Identity.BL.Interfaces;
 
 public interface ITokenService
 {
-    Token CreateAccessToken(string Email);
+    Token CreateAccessToken(string Email, string userId);
 }

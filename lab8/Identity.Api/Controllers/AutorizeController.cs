@@ -1,5 +1,6 @@
 using Identity.Api.Commands.Requests;
 using Identity.Api.Commands.Responces;
+using Identity.Api.Models;
 using Identity.Api.Quries.Requests;
 using Identity.Api.Quries.Responces;
 using MediatR;
@@ -29,7 +30,18 @@ public class AutorizeController : ControllerBase
     public async Task<IActionResult> Reqistration([FromBody] RegistrationRequest request)
     {
         RegistrationResponse responce = await _mediator.Send(request);
-        return Ok(responce);
+
+        if (!responce.IsSucceed)
+        {
+            return BadRequest(new AuthentificationFail
+            {
+                Errors = responce.Errors
+            });
+        }
+        
+        return Ok(new AuthentificationSuccess
+        {
+            Token = responce.Token
+        });
     }
 }
-    

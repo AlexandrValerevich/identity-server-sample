@@ -16,12 +16,14 @@ public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
 
     public Task<LoginResponse> Handle(LoginRequest request, CancellationToken cancellationToken)
     {
-        var token = _tokenService.CreateAccessToken(request.Email);
-        return Task.FromResult(new LoginResponse
-        {
-            IsSucceed = true,
-            AccessToken = token.Value,
-            Role = "Admin"
-        });
+        throw new NotImplementedException();
+
+        // var token = _tokenService.CreateAccessToken(request.Email);
+        // return Task.FromResult(new LoginResponse
+        // {
+        //     IsSucceed = true,
+        //     AccessToken = token.Value,
+        //     Role = "Admin"
+        // });
     }
 }

@@ -14,7 +14,7 @@ public class UserService : IUserService
         _repository = repository;
     }
 
-    public async Task<User> Create(User user)
+    public async Task<bool> Create(User user)
     {
         return await _repository.Create(user);
     }

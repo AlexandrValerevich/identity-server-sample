@@ -1,51 +1,60 @@
-using Identity.BL.Entity;
-using Identity.BL.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+// using System.Security.Claims;
+// using Identity.BL.Entity;
+// using Identity.BL.Interfaces;
+// using Microsoft.AspNetCore.Identity;
+// using Microsoft.EntityFrameworkCore;
 
-namespace Identity.DAL.Respository;
+// namespace Identity.DAL.Respository;
 
-public class UserRepository : IUserRepository
-{
-    private readonly DbUserContext _context;
-    private DbSet<User> Users => _context.Users;
+// public class UserRepository : IUserRepository
+// {
+//     private readonly UserManager<IdentityUser> _userManager;
 
-    public UserRepository(DbUserContext context)
-    {
-        _context = context;
-    }
+//     public UserRepository(UserManager<IdentityUser> userManager)
+//     {
+//         _userManager = userManager;
+//     }
 
-    public async Task<User> Create(User user)
-    {
-        EntityEntry<User> createdUser = await Users.AddAsync(user);
-        await Save();
-        return createdUser.Entity;
-    }
+//     public async Task<User> Read(Guid id)
+//     {
+//         _userManager.GetUserAsync(new ClaimsPrincipal
+//         {
+//             Identity = 
+//         });
+//         return await Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
+//     }
 
-    public async Task Delete(Guid id)
-    {
-        User deletedUser = await Read(id);
-        Users.Remove(deletedUser);
-        await Save();
-    }
+//     public async Task<bool> Create(User user)
+//     {
+//         var identityUser = new IdentityUser
+//         {
+//             Email = user.Email,
+//         };
+//         IdentityResult identityResult = await _userManager.CreateAsync(identityUser, user.Password);
 
-    public async Task<User> Read(Guid id)
-    {
-        return await Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
-    }
+//         return identityResult.Succeeded;
+//     }
 
-    public async Task Update(User user)
-    {
-        User updatedUser = await Read(user.Id);
-        updatedUser.Email = user.Email;
-        updatedUser.Password = user.Password;
-        Users.Update(updatedUser);
+//     public async Task Delete(Guid id)
+//     {
+//         await _userManager.DeleteAsync();
+//         User deletedUser = await Read(id);
+//         Users.Remove(deletedUser);
+//         await Save();
+//     }
 
-        await Save();
-    }
+//     public async Task Update(User user)
+//     {
+//         User updatedUser = await Read(user.Id);
+//         updatedUser.Email = user.Email;
+//         updatedUser.Password = user.Password;
+//         Users.Update(updatedUser);
 
-    private async Task Save()
-    {
-        await _context.SaveChangesAsync();
-    }
-}
+//         await Save();
+//     }
+
+//     private async Task Save()
+//     {
+//         await _context.SaveChangesAsync();
+//     }
+// }
