@@ -16,11 +16,12 @@ public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
 
     public Task<LoginResponse> Handle(LoginRequest request, CancellationToken cancellationToken)
     {
-        var token = _tokenService.CreateToken(request.Email);
+        var token = _tokenService.CreateAccessToken(request.Email);
         return Task.FromResult(new LoginResponse
         {
             IsSucceed = true,
-            AccessToken = token.Value
+            AccessToken = token.Value,
+            Role = "Admin"
         });
     }
 }

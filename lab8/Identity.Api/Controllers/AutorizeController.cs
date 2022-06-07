@@ -18,7 +18,7 @@ public class AutorizeController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromForm] LoginRequest loginRequest)
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
     {
         LoginResponse reponse = await _mediator.Send(loginRequest);
         return Ok(reponse);

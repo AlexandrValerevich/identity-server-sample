@@ -18,9 +18,9 @@ public class TokenService : ITokenService
         _authOption = authOption;
     }
 
-    public Token CreateToken(string Email)
+    public Token CreateAccessToken(string Email)
     {
-        var claims = new List<Claim> { new Claim(ClaimTypes.Name, Email) };
+        var claims = new List<Claim> { new Claim(ClaimTypes.Name, Email), new Claim(ClaimTypes.Role, "Admin") };
         // создаем JWT-токен
         var jwt = new JwtSecurityToken(
                 issuer: _authOption.Issuer,
