@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab8", "Identity.Api\lab8.csproj", "{64C79D9B-5CF8-412A-9B4E-9388B84D23DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Api", "Identity.Api\Identity.Api.csproj", "{64C79D9B-5CF8-412A-9B4E-9388B84D23DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.BL", "Identity.BL\Identity.BL.csproj", "{BF090E5B-BB72-406C-B244-B1ADFF32D334}"
 EndProject

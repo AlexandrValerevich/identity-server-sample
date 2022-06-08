@@ -9,8 +9,6 @@ public class DbIdentityContext : IdentityDbContext<IdentityUser>
 {
     public DbIdentityContext(DbContextOptions<DbIdentityContext> options) : base(options)
     {
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
     }
 
     public DbSet<RefreshToken> RefreshTokens { get; set; }

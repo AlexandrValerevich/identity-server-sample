@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Identity.Api/bin/Debug/net6.0/lab8.dll",
+            "program": "${workspaceFolder}/Identity.Api/bin/Debug/net6.0/Identity.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Identity.Api",
             "stopAtEntry": false,

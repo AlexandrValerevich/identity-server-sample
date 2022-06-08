@@ -67,7 +67,7 @@ public class RefreshTokenService : IRefreshTokenService
             return false;
         }
 
-        if (storedRefreshToken.IsUsed)
+        if (!storedRefreshToken.IsUsed)
         {
             return false;
         }
@@ -94,7 +94,7 @@ public class RefreshTokenService : IRefreshTokenService
             IsUsed = true,
             UserId = user.Id,
             CreationDate = DateTime.UtcNow,
-            ExpireDate = DateTime.UtcNow.AddDays(5)
+            ExpireDate = DateTime.UtcNow.AddHours(1)
         };
 
         await _refreshTokenRepository.Create(refreshToken);
@@ -104,16 +104,10 @@ public class RefreshTokenService : IRefreshTokenService
     private ClaimsPrincipal GetPrincipalFromToken(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-
         try
         {
             var principal = tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken);
-            if (IsJwtWithValidSecurityAlghorithm(validatedToken))
-            {
-                return principal;
-            }
-
-            return null;
+            return IsJwtWithValidSecurityAlghorithm(validatedToken) ? principal : null;
         }
         catch
         {

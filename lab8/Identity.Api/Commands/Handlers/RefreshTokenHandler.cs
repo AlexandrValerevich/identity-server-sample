@@ -21,13 +21,13 @@ public class RefreshTokenHandler : IRequestHandler<RefreshTokenRequest, RefreshT
 
     public async Task<RefreshTokenResponce> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
     {
-        bool isTokenValid = await _refreshTokenService.IsValidTokens(request.AccessToken, request.AccessToken);
+        bool isTokenValid = await _refreshTokenService.IsValidTokens(request.AccessToken, request.RefreshToken);
 
         if (!isTokenValid)
         {
             return Bad(new[] { "Invalid tokens" });
         }
-        
+
         IdentityUser tokenOwner = await _refreshTokenService.GetTokenOwner(request.AccessToken);
         AccessToken accessToken = _accessTokenService.CreateTokens(tokenOwner);
         RefreshToken refreshToken = await _refreshTokenService.CreateRefreshToken(tokenOwner, accessToken.JwtId);
