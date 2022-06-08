@@ -10,20 +10,32 @@ namespace Identity.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class AutorizeController : ControllerBase
+public class IdentityController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public AutorizeController(IMediator mediator)
+    public IdentityController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        LoginResponse reponse = await _mediator.Send(loginRequest);
-        return Ok(reponse);
+        LoginResponse responce = await _mediator.Send(request);
+
+        if (!responce.IsSucceed)
+        {
+            return BadRequest(new AuthentificationFail
+            {
+                Errors = responce.Errors
+            });
+        }
+        
+        return Ok(new AuthentificationSuccess
+        {
+            Token = responce.Token
+        });
     }
 
     [HttpPost("registration")]
