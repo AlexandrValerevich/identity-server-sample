@@ -1,6 +1,6 @@
-namespace Identity.Api.Models;
+namespace Identity.BL.Entity;
 
-public class AuthentificationSuccess
+public class Tokens
 {
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }

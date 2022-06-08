@@ -9,14 +9,17 @@ namespace Identity.Api.Quries.Handlers;
 
 public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
 {
-    private readonly ITokenService _tokenService;
+    private readonly IAccessTokenService _accessTokenService;
+    private readonly IRefreshTokenService _refreshTokenService;
     private readonly UserManager<IdentityUser> _userManager;
 
-    public LoginHandler(ITokenService tokenService,
-                        UserManager<IdentityUser> userManager)
+    public LoginHandler(IAccessTokenService tokenService,
+                        UserManager<IdentityUser> userManager,
+                        IRefreshTokenService refreshTokenService)
     {
-        _tokenService = tokenService;
+        _accessTokenService = tokenService;
         _userManager = userManager;
+        _refreshTokenService = refreshTokenService;
     }
 
     public async Task<LoginResponse> Handle(LoginRequest request, CancellationToken cancellationToken)
@@ -37,16 +40,18 @@ public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
             return Bad(errors);
         }
 
-        Token token = _tokenService.CreateAccessToken(user.Email, user.Id);
+        AccessToken accessToken = _accessTokenService.CreateTokens(user);
+        RefreshToken refreshToken = await _refreshTokenService.CreateRefreshToken(user, accessToken.JwtId);
 
-        return Ok(token.Value);
+        return Ok(accessToken.Value, refreshToken.Token);
     }
 
-    private static LoginResponse Ok(string token)
+    private static LoginResponse Ok(string accessToken, string refreshToken)
     {
         return new LoginResponse
         {
-            Token = token,
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
             IsSucceed = true
         };
     }

@@ -1,9 +1,9 @@
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Identity.BL.Helpers.Extensions;
+namespace Identity.BL.Helpers;
 
-public static class StringExtensions
+public static class StringHelper
 {
     public static SymmetricSecurityKey ConvertToSymmetricSecurityKey(this string value)
     {

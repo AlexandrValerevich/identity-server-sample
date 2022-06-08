@@ -1,5 +1,6 @@
 using Identity.Api.Commands.Requests;
 using Identity.Api.Commands.Responces;
+using Identity.Api.Commands.Responses;
 using Identity.Api.Models;
 using Identity.Api.Quries.Requests;
 using Identity.Api.Quries.Responces;
@@ -31,10 +32,11 @@ public class IdentityController : ControllerBase
                 Errors = responce.Errors
             });
         }
-        
+
         return Ok(new AuthentificationSuccess
         {
-            Token = responce.Token
+            AccessToken = responce.AccessToken,
+            RefreshToken = responce.RefreshToken
         });
     }
 
@@ -50,10 +52,31 @@ public class IdentityController : ControllerBase
                 Errors = responce.Errors
             });
         }
-        
+
         return Ok(new AuthentificationSuccess
         {
-            Token = responce.Token
+            AccessToken = responce.AccessToken,
+            RefreshToken = responce.RefreshToken
+        });
+    }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh(RefreshTokenRequest request)
+    {
+        RefreshTokenResponce responce = await _mediator.Send(request);
+
+        if (!responce.IsSucceed)
+        {
+            return BadRequest(new AuthentificationFail
+            {
+                Errors = responce.Errors
+            });
+        }
+
+        return Ok(new AuthentificationSuccess
+        {
+            AccessToken = responce.AccessToken,
+            RefreshToken = responce.RefreshToken
         });
     }
 }

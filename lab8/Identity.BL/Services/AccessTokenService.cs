@@ -1,29 +1,30 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Identity.BL.Entity;
-using Identity.BL.Helpers.Extensions;
+using Identity.BL.Helpers;
 using Identity.BL.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.BL.Services;
 
-public class TokenService : ITokenService
+public class AccessTokenService : IAccessTokenService
 {
     private readonly IAuthenticationOption _authOption;
 
-    public TokenService(IAuthenticationOption authOption)
+    public AccessTokenService(IAuthenticationOption authOption)
     {
         _authOption = authOption;
     }
 
-    public Token CreateAccessToken(string Email, string userId)
+    public AccessToken CreateTokens(IdentityUser user)
     {
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, Email),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, Email),
-            new Claim("id", userId)
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim("id", user.Id)
         };
 
         //var claimsIdentity = new ClaimsIdentity(claims);
@@ -37,19 +38,21 @@ public class TokenService : ITokenService
         // };
         // создаем JWT-токен
 
-        var jwt = new JwtSecurityToken(
+        var jwtSecurityToken = new JwtSecurityToken(
                 issuer: _authOption.Issuer,
                 audience: _authOption.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(15)),
-                signingCredentials: new SigningCredentials(_authOption.Key.ConvertToSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                expires: DateTime.UtcNow.Add(_authOption.TokenLifeTime),
+                signingCredentials: new SigningCredentials(_authOption.Key.ConvertToSymmetricSecurityKey(),
+                                                           SecurityAlgorithms.HmacSha256));
 
-        string encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+        string accessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
         // формируем ответ
-        return new Token
+        return new AccessToken
         {
-            Value = encodedJwt
+            Value = accessToken,
+            JwtId = jwtSecurityToken.Id
         };
     }
 }

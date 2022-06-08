@@ -9,14 +9,17 @@ namespace Identity.Api.Commands.Handlers;
 
 public class RegistrationHandler : IRequestHandler<RegistrationRequest, RegistrationResponse>
 {
-    private readonly ITokenService _tokenService;
+    private readonly IAccessTokenService _tokenService;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly IRefreshTokenService _refreshTokenService;
 
-    public RegistrationHandler(ITokenService tokenService,
-                               UserManager<IdentityUser> userManager)
+    public RegistrationHandler(IAccessTokenService tokenService,
+                               UserManager<IdentityUser> userManager,
+                               IRefreshTokenService refreshTokenService)
     {
         _tokenService = tokenService;
         _userManager = userManager;
+        _refreshTokenService = refreshTokenService;
     }
 
     public async Task<RegistrationResponse> Handle(RegistrationRequest request, CancellationToken cancellationToken)
@@ -41,16 +44,18 @@ public class RegistrationHandler : IRequestHandler<RegistrationRequest, Registra
             return Bad(errors);
         }
 
-        Token token = _tokenService.CreateAccessToken(request.Email, newUser.Id);
+        AccessToken accessToken = _tokenService.CreateTokens(newUser);
+        RefreshToken refreshToken = await _refreshTokenService.CreateRefreshToken(newUser, accessToken.JwtId);
 
-        return Ok(token.Value);
+        return Ok(accessToken.Value, refreshToken.Token);
     }
 
-    private static RegistrationResponse Ok(string token)
+    private static RegistrationResponse Ok(string accessToken, string refreshToken)
     {
         return new RegistrationResponse
         {
-            Token = token,
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
             IsSucceed = true
         };
     }
