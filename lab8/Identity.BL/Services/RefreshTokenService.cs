@@ -45,7 +45,7 @@ public class RefreshTokenService : IRefreshTokenService
             return false;
         }
 
-        if (IsValidatedTokenExpire(validatedToken))
+        if (!IsTokenExpire(validatedToken))
         {
             return false;
         }
@@ -122,7 +122,7 @@ public class RefreshTokenService : IRefreshTokenService
                                                  StringComparison.InvariantCultureIgnoreCase);
     }
 
-    private static bool IsValidatedTokenExpire(ClaimsPrincipal validatedToken)
+    private static bool IsTokenExpire(ClaimsPrincipal validatedToken)
     {
         long expiryDateUnix = validatedToken.GetExpiryDateUnix();
         var expiryDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
