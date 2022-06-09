@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Identity.Api.Commands.Requests;
 
-public class RefreshTokenRequest : IRequest<RefreshTokenResponce>
+public class RefreshTokenRequest : IRequest<RefreshTokenResponse>
 {
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }

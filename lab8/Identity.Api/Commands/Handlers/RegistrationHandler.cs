@@ -1,13 +1,13 @@
+using Identity.Api.Abstraction;
 using Identity.Api.Commands.Requests;
-using Identity.Api.Commands.Responces;
+using Identity.Api.Commands.Responses;
 using Identity.BL.Entity;
 using Identity.BL.Interfaces;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Api.Commands.Handlers;
 
-public class RegistrationHandler : IRequestHandler<RegistrationRequest, RegistrationResponse>
+public class RegistrationHandler : AuthHandlerAbstract<RegistrationRequest, RegistrationResponse>
 {
     private readonly IAccessTokenService _tokenService;
     private readonly UserManager<IdentityUser> _userManager;
@@ -22,7 +22,7 @@ public class RegistrationHandler : IRequestHandler<RegistrationRequest, Registra
         _refreshTokenService = refreshTokenService;
     }
 
-    public async Task<RegistrationResponse> Handle(RegistrationRequest request, CancellationToken cancellationToken)
+    public override async Task<RegistrationResponse> Handle(RegistrationRequest request, CancellationToken cancellationToken)
     {
         IdentityUser existingUser = await _userManager.FindByEmailAsync(request.Email);
         if (existingUser is not null)
@@ -48,25 +48,6 @@ public class RegistrationHandler : IRequestHandler<RegistrationRequest, Registra
         RefreshToken refreshToken = await _refreshTokenService.CreateRefreshToken(newUser, accessToken.JwtId);
 
         return Ok(accessToken.Value, refreshToken.Token);
-    }
-
-    private static RegistrationResponse Ok(string accessToken, string refreshToken)
-    {
-        return new RegistrationResponse
-        {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-            IsSucceed = true
-        };
-    }
-
-    private static RegistrationResponse Bad(IEnumerable<string> errors)
-    {
-        return new RegistrationResponse
-        {
-            Errors = errors,
-            IsSucceed = false
-        };
     }
 }
 

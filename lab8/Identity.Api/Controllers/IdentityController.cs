@@ -1,6 +1,6 @@
 using Identity.Api.Commands.Requests;
-using Identity.Api.Commands.Responces;
 using Identity.Api.Commands.Responses;
+using Identity.Api.Interfaces;
 using Identity.Api.Models;
 using Identity.Api.Quries.Requests;
 using Identity.Api.Quries.Responces;
@@ -23,47 +23,26 @@ public class IdentityController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        LoginResponse responce = await _mediator.Send(request);
-
-        if (!responce.IsSucceed)
-        {
-            return BadRequest(new AuthentificationFail
-            {
-                Errors = responce.Errors
-            });
-        }
-
-        return Ok(new AuthentificationSuccess
-        {
-            AccessToken = responce.AccessToken,
-            RefreshToken = responce.RefreshToken
-        });
+        return await HandleRequest<LoginRequest, LoginResponse>(request);
     }
 
     [HttpPost("registration")]
     public async Task<IActionResult> Reqistration([FromBody] RegistrationRequest request)
     {
-        RegistrationResponse responce = await _mediator.Send(request);
-
-        if (!responce.IsSucceed)
-        {
-            return BadRequest(new AuthentificationFail
-            {
-                Errors = responce.Errors
-            });
-        }
-
-        return Ok(new AuthentificationSuccess
-        {
-            AccessToken = responce.AccessToken,
-            RefreshToken = responce.RefreshToken
-        });
+        return await HandleRequest<RegistrationRequest, RegistrationResponse>(request);
     }
 
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh(RefreshTokenRequest request)
     {
-        RefreshTokenResponce responce = await _mediator.Send(request);
+        return await HandleRequest<RefreshTokenRequest, RefreshTokenResponse>(request);
+    }
+
+    private async Task<IActionResult> HandleRequest<TRequest, TResponse>(TRequest request)
+        where TResponse : IAuthResponse
+        where TRequest : IRequest<TResponse>
+    {
+        var responce = await _mediator.Send(request);
 
         if (!responce.IsSucceed)
         {

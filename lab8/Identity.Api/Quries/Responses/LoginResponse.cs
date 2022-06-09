@@ -1,6 +1,8 @@
+using Identity.Api.Interfaces;
+
 namespace Identity.Api.Quries.Responces;
 
-public class LoginResponse
+public class LoginResponse : IAuthResponse
 {
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }

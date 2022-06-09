@@ -1,13 +1,13 @@
+using Identity.Api.Abstraction;
 using Identity.Api.Quries.Requests;
 using Identity.Api.Quries.Responces;
 using Identity.BL.Entity;
 using Identity.BL.Interfaces;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Api.Quries.Handlers;
 
-public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
+public class LoginHandler : AuthHandlerAbstract<LoginRequest, LoginResponse>
 {
     private readonly IAccessTokenService _accessTokenService;
     private readonly IRefreshTokenService _refreshTokenService;
@@ -22,7 +22,7 @@ public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
         _refreshTokenService = refreshTokenService;
     }
 
-    public async Task<LoginResponse> Handle(LoginRequest request, CancellationToken cancellationToken)
+    public override async Task<LoginResponse> Handle(LoginRequest request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
@@ -44,24 +44,5 @@ public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
         RefreshToken refreshToken = await _refreshTokenService.CreateRefreshToken(user, accessToken.JwtId);
 
         return Ok(accessToken.Value, refreshToken.Token);
-    }
-
-    private static LoginResponse Ok(string accessToken, string refreshToken)
-    {
-        return new LoginResponse
-        {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-            IsSucceed = true
-        };
-    }
-
-    private static LoginResponse Bad(IEnumerable<string> errors)
-    {
-        return new LoginResponse
-        {
-            Errors = errors,
-            IsSucceed = false
-        };
     }
 }

@@ -1,4 +1,4 @@
-using Identity.Api.Commands.Responces;
+using Identity.Api.Commands.Responses;
 using MediatR;
 
 namespace Identity.Api.Commands.Requests;

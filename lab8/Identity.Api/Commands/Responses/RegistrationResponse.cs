@@ -1,6 +1,8 @@
-namespace Identity.Api.Commands.Responces;
+using Identity.Api.Interfaces;
 
-public class RegistrationResponse
+namespace Identity.Api.Commands.Responses;
+
+public class RegistrationResponse : IAuthResponse
 {
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }
